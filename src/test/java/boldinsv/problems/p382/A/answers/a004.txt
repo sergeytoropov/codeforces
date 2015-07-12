@@ -1,0 +1,6 @@
+input
+ABC|
+D
+output
+Impossible
+end

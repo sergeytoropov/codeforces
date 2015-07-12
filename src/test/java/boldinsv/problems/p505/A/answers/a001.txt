@@ -1,0 +1,5 @@
+input
+revive
+output
+reviver
+end

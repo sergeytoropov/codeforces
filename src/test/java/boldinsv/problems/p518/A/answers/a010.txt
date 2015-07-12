@@ -1,0 +1,6 @@
+input
+vklldrxnfgyorgfpfezvhbouyzzzzz
+vklldrxnfgyorgfpfezvhbouzaaadv
+output
+vklldrxnfgyorgfpfezvhbouzaaaca
+end

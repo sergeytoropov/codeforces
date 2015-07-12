@@ -1,0 +1,5 @@
+input
+500 1000 20 30
+output
+Vasya
+end

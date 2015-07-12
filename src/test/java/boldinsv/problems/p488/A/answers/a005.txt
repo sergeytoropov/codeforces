@@ -1,0 +1,5 @@
+input
+888888888888
+output
+1
+end

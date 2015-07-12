@@ -1,0 +1,6 @@
+input
+abcdefghijklmnopqrstuvwxyz
+qrsimtabuvzhnwcdefgjklxyop
+output
+26 0
+end

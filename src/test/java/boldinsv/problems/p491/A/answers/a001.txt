@@ -1,0 +1,6 @@
+input
+0
+1
+output
+2 1
+end

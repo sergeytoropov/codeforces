@@ -1,0 +1,6 @@
+input
+abcdefghijklmnopqrstuvwxyz
+ABCDEFGHIJKLMNOPQRSTUVWXYZ
+output
+0 26
+end

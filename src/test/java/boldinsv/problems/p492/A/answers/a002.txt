@@ -1,0 +1,5 @@
+input
+25
+output
+4
+end

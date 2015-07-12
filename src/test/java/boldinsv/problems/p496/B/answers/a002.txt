@@ -1,0 +1,6 @@
+input
+4
+2014
+output
+0142
+end

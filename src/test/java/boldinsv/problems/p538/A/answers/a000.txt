@@ -1,0 +1,5 @@
+input
+CODEFORCES
+output
+YES
+end

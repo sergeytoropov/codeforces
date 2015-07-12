@@ -1,0 +1,6 @@
+input
+W|T
+F
+output
+Impossible
+end

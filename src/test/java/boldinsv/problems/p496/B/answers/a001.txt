@@ -1,0 +1,6 @@
+input
+3
+579
+output
+024
+end

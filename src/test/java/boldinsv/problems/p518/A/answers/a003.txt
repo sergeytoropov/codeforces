@@ -1,0 +1,6 @@
+input
+abcdefg
+abcdefh
+output
+No such string
+end

@@ -1,0 +1,6 @@
+input
+1 4
+face
+output
+0
+end

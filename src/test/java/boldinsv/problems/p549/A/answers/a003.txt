@@ -1,0 +1,8 @@
+input
+2 3
+fac
+cef
+output
+2
+end
+

@@ -1,0 +1,5 @@
+input
+DOGEFORCES
+output
+NO
+end

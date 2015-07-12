@@ -1,0 +1,6 @@
+input
+aaa
+zzz
+output
+baa
+end

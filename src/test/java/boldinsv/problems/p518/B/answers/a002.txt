@@ -1,0 +1,6 @@
+input
+ABC
+abc
+output
+0 3
+end

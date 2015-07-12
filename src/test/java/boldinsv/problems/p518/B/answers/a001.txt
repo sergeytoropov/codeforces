@@ -1,0 +1,6 @@
+input
+AbC
+DCbA
+output
+3 0
+end

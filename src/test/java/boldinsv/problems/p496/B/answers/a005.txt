@@ -1,0 +1,6 @@
+input
+4
+4444
+output
+0000
+end

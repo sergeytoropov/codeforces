@@ -1,0 +1,5 @@
+input
+10 5 5 5
+output
+9
+end

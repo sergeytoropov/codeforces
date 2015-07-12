@@ -1,0 +1,6 @@
+input
+AC|T
+L
+output
+AC|TL
+end

@@ -1,0 +1,6 @@
+input
+5
+46802
+output
+02468
+end

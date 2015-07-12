@@ -1,0 +1,5 @@
+input
+22227
+output
+72222
+end

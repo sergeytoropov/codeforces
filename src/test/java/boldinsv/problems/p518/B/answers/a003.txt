@@ -1,0 +1,6 @@
+input
+abacaba
+AbaCaBA
+output
+3 4
+end

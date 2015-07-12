@@ -1,0 +1,5 @@
+input
+73
+output
+15
+end

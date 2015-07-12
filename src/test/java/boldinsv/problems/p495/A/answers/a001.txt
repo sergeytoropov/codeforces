@@ -1,0 +1,5 @@
+input
+89
+output
+2
+end

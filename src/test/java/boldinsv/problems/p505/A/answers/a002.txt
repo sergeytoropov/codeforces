@@ -1,0 +1,5 @@
+input
+ee
+output
+eye
+end

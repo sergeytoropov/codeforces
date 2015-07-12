@@ -1,0 +1,13 @@
+input
+MASFF
+SAFBDSRG
+5
+1 h 1 y
+15 h 1 r
+27 a 1 y
+58 a 1 y
+69 h 10 y
+output
+MASFF 1 15
+SAFBDSRG 1 58
+end

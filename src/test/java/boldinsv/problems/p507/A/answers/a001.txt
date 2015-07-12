@@ -1,0 +1,7 @@
+input
+4 10
+4 3 1 2
+output
+4
+3 4 2 1
+end

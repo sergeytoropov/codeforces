@@ -1,0 +1,6 @@
+input
+|ABC
+XYZ
+output
+XYZ|ABC
+end

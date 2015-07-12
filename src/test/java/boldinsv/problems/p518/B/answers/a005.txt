@@ -1,0 +1,6 @@
+input
+zzzZZZ
+ZZZzzZ
+output
+5 1
+end

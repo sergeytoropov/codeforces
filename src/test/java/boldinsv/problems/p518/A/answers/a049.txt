@@ -1,0 +1,6 @@
+input
+aba
+aca
+output
+abb
+end

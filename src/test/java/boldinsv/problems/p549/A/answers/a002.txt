@@ -1,0 +1,10 @@
+input
+4 2
+xx
+cf
+ae
+xx
+output
+1
+end
+
