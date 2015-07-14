@@ -54,7 +54,6 @@ public class C544BTest {
         assertArrayEquals(pipe.getAnswerDataStringArray(), outputData);
     }
 
-
     @Test
     @UseDataProvider(value = "load", location = FilesListDataProvider.class)
     @DataSource(path = "/src/test/java/boldinsv/problems/p544/B/answers")

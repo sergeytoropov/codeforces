@@ -1,0 +1,7 @@
+input
+1
+abca
+output
+YES
+abca
+end
