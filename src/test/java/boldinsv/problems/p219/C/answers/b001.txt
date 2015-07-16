@@ -1,0 +1,7 @@
+input
+4 2
+BBBB
+output
+2
+ABAB
+end
