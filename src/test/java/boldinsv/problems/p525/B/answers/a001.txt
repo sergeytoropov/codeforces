@@ -1,0 +1,7 @@
+input
+abcdef
+1
+2
+output
+aedcbf
+end
