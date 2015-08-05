@@ -1,0 +1,7 @@
+input
+vwxyz
+2
+2 2
+output
+vwxyz
+end
