@@ -3,11 +3,13 @@ package boldinsv.problems.p551.A;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class C551A {
     public static int n;
-    public static int[] ai;
-    public static int[] result;
+    public static List<Integer> listAi = new ArrayList<>();
+    public static List<String> listResult = new ArrayList<>();
 
     public static void init() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -17,10 +19,10 @@ public class C551A {
                 n = Integer.parseInt(reader.readLine());
 
                 String[] items = reader.readLine().split(" ");
-                ai = new int[items.length];
 
+                listAi.clear();
                 for (int index = 0; index < items.length; index++) {
-                    ai[index] = Integer.parseInt(items[index]);
+                    listAi.add(Integer.parseInt(items[index]));
                 }
             } finally {
                 reader.close();
@@ -31,26 +33,17 @@ public class C551A {
     }
 
     public static void run() {
-        result = new int[ai.length];
-
-        for (int index = 0; index < ai.length; index++) {
-            int position = 1;
-
-            for (int j = 0; j < ai.length; j++) {
-                if (ai[index] < ai[j]) {
-                    position += 1;
-                }
-            }
-            result[index] = position;
-        }
+        listResult.clear();
+        listAi.stream().forEach(overValue -> {
+            Integer positiion = listAi.stream()
+                    .filter(belowValue -> overValue < belowValue)
+                    .reduce(1, (acc, belowValue) -> acc + 1);
+            listResult.add("" + positiion);
+        });
     }
 
     public static void print() {
-        String answer = "";
-
-        for (int position: result) {
-            answer += position + " ";
-        }
+        String answer = listResult.stream().reduce("", (acc, value) -> acc + value + " ");
         System.out.println(answer.trim());
     }
 
