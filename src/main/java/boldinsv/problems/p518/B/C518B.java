@@ -4,6 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
+import java.util.function.ToIntBiFunction;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class C518B {
 
@@ -19,20 +25,27 @@ public class C518B {
         }
 
         public Map<Character, Integer> getNewspaper() {
-            Map<Character, Integer> newspaper = new HashMap<Character, Integer>();
-            char[] letters = t.toCharArray();
+            return t.chars()
+                    .mapToObj(ch -> (char) ch)
+                    .collect(Collectors.groupingBy(ch -> Character.valueOf(ch),
+                                                   Collectors.summingInt(value -> 1)));
+        }
+    }
 
-            for (int index = 0; index < letters.length; index++) {
-                Integer amount = newspaper.get(letters[index]);
-                if (amount == null) {
-                    amount = 1;
-                } else {
-                    amount += 1;
-                }
-                newspaper.put(letters[index], amount);
-            }
+    public static class Answer {
+        public int ura = 0;
+        public int opa = 0;
+    }
 
-            return newspaper;
+    public static class Word {
+        public final Answer answer;
+        public final Character ch;
+        public final Map<Character, Integer> newspaper;
+
+        public Word(Character ch, Map<Character, Integer> newspaper, Answer answer) {
+            this.ch = ch;
+            this.newspaper = newspaper;
+            this.answer = answer;
         }
     }
 
@@ -48,47 +61,41 @@ public class C518B {
         public static char invert(char letter) {
             char upperLetter = String.valueOf(letter).toUpperCase().charAt(0);
 
-            if (letter == upperLetter) {
-                return String.valueOf(letter).toLowerCase().charAt(0);
-            }
-            return upperLetter;
+            return (letter == upperLetter) ?
+                    String.valueOf(letter).toLowerCase().charAt(0) :
+                    upperLetter;
         }
 
         public String run() {
-            int ura = 0;
-            int opa = 0;
-            LinkedList<Character> lettersList = new LinkedList<Character>();
+            Answer answer = new Answer();
 
-            char[] letters = word.toCharArray();
-            for (int index = 0; index < letters.length; index++) {
-                lettersList.add(letters[index]);
-            }
+            LinkedList<Word> lettersList = word.chars()
+                    .mapToObj(ch -> new Word((char) ch, newspaper, answer))
+                    .collect(Collectors.toCollection(LinkedList::new));
 
-            ListIterator<Character> iter = lettersList.listIterator();
-            while (iter.hasNext()) {
-                char letter = iter.next();
+            LinkedList<Word> lettersListTwo = lettersList.stream()
+                    .filter(item -> {
+                        Integer amount = item.newspaper.get(item.ch);
+                        if (amount != null && amount > 0) {
+                            item.answer.ura += 1;
+                            item.newspaper.put(item.ch, amount - 1);
+                            return false;
+                        }
+                        return true;
+                    })
+                    .collect(Collectors.toCollection(LinkedList::new));
 
-                Integer amount = newspaper.get(letter);
+            lettersListTwo.stream().forEach(item -> {
+                Integer amount = item.newspaper.get(Algorithm.invert(item.ch));
                 if (amount != null && amount > 0) {
-                    ura += 1;
-                    newspaper.put(letter, amount - 1);
-
-                    iter.remove();
+                    item.answer.opa += 1;
+                    item.newspaper.put(Algorithm.invert(item.ch), amount - 1);
                 }
-            }
+            });
 
-            iter = lettersList.listIterator();
-            while (iter.hasNext()) {
-                char letter = iter.next();
-
-                Integer amount = newspaper.get(Algorithm.invert(letter));
-                if (amount != null && amount > 0) {
-                    opa += 1;
-                    newspaper.put(Algorithm.invert(letter), amount - 1);
-                }
-            }
-
-            return ura + " " + opa;
+            return (lettersList == null || lettersList.size() == 0) ?
+                    "0 0" :
+                    lettersList.get(0).answer.ura + " " + lettersList.get(0).answer.opa;
         }
     }
 
