@@ -3,7 +3,8 @@ package boldinsv.problems.p384;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
-import java.lang.StringBuffer;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class C384A {
 	public static void main(String[] args) throws IOException {
@@ -13,27 +14,24 @@ public class C384A {
 
 		int[][] matrix = new int[n][n];
 
-		int coder = 0;
-		for (int i = 0; i < matrix.length; i++) {
-			for (int j = 0; j < matrix[i].length; j++) {
-				if ( (i % 2 == 0 && j % 2 == 0) || (i % 2 != 0 && j % 2 != 0) ) {
-					matrix[i][j] = 1;
-					coder += 1;
-				}
-			}
-		}
+		int coder = IntStream
+				.range(0, matrix.length)
+				.map(i -> IntStream
+							.range(0, matrix[i].length)
+							.filter(j -> (i % 2 == 0 && j % 2 == 0) || (i % 2 != 0 && j % 2 != 0))
+							.map(j -> {matrix[i][j] = 1; return 1;})
+							.sum())
+				.sum();
+
 		System.out.println("" + coder);
 
-		for (int i = 0; i < matrix.length; i++) {
-			StringBuffer sBuf = new StringBuffer();
-			for (int j = 0; j < matrix[i].length; j++) {
-				if (matrix[i][j] == 1) {
-					sBuf.append("C");
-				} else {
-					sBuf.append(".");
-				}
-			}
-			System.out.println(sBuf);
-		}
+		IntStream
+				.range(0, matrix.length)
+				.mapToObj(i -> new String(
+						IntStream
+							.range(0, matrix[i].length)
+							.mapToObj(j -> matrix[i][j] == 1 ? "C" : ".")
+							.collect(Collectors.joining())))
+				.forEach(System.out::println);
 	}
 }
