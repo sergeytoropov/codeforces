@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.stream.IntStream;
 
 public class C432A {
     public static int n;
@@ -21,12 +22,7 @@ public class C432A {
             n = Integer.parseInt(items[0]);
             k = Integer.parseInt(items[1]);
 
-            items = reader.readLine().split(" ");
-
-            peoples = new int[items.length];
-            for (int index = 0; index < items.length; index++) {
-                peoples[index] = Integer.parseInt(items[index]);
-            }
+            peoples = Arrays.stream(reader.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
 
             reader.close();
         } catch (IOException ioe) {
@@ -37,17 +33,12 @@ public class C432A {
     public static void run() {
         Arrays.sort(peoples);
 
-        answer = 0;
-        stop:
-        for (int index = 0; index < peoples.length; index++) {
-            if ((5 - peoples[index]) < k) {
-                break stop;
-            }
-
-            if ((index + 1) % 3 == 0) {
-                answer++;
-            }
-        }
+        answer = IntStream
+                .range(0, peoples.length)
+                .filter(index -> ((5 - peoples[index]) >= k))
+                .filter(index -> ((index + 1) % 3 == 0))
+                .map(index -> 1)
+                .sum();
     }
 
     public static void print() {
