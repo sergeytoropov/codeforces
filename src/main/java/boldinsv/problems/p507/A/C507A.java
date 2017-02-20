@@ -3,6 +3,9 @@ package boldinsv.problems.p507.A;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class C507A {
     private static final int INSTRUMENT = 0;
@@ -15,73 +18,78 @@ public class C507A {
 
         public Init() throws IOException {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-            String[] items;
 
-            items = reader.readLine().split(" ");
-            n = Integer.parseInt(items[0]);
-            k = Integer.parseInt(items[1]);
+            int[] items =
+                    Arrays.stream(reader.readLine().split(" ")).mapToInt(Integer::valueOf).toArray();
+            n = items[0];
+            k = items[1];
 
-            items = reader.readLine().split(" ");
-            musicalInstruments = new int[n];
-            for (int index = 0; index < n; index++) {
-                musicalInstruments[index] = Integer.parseInt(items[index]);
-            }
+            musicalInstruments =
+                    Arrays.stream(reader.readLine().split(" ")).mapToInt(Integer::valueOf).toArray();
+
             reader.close();
         }
 
-        public int[][] getMusicalInstruments() {
-            int[][] mi = new int[2][musicalInstruments.length];
-
-            for (int index = 0; index < musicalInstruments.length; index++) {
-                mi[INSTRUMENT][index] = musicalInstruments[index];
-                mi[ORDER][index] = index + 1;
-            }
-
-            return mi;
+        public Integer[][] getMusicalInstruments() {
+             return IntStream.range(0, musicalInstruments.length)
+                    .mapToObj(index -> new Integer[][] {{Integer.valueOf(musicalInstruments[index])}, {index}})
+                    .reduce(
+                            new Integer[2][musicalInstruments.length],
+                            (acc, element) -> {
+                                int index = element[ORDER][0];
+                                acc[INSTRUMENT][index] = element[INSTRUMENT][0];
+                                acc[ORDER][index] = index + 1;
+                                return acc;
+                            });
         }
     }
 
     public static class Algoritm {
         private int hours;
-        private int[][] musicalInstruments;
+        private Integer[][] musicalInstruments;
         private int quantity;
 
-        public Algoritm(int hours, int[][] musicalInstuments) {
+        public Algoritm(int hours, Integer[][] musicalInstuments) {
             this.hours = hours;
             this.musicalInstruments = musicalInstuments;
             this.quantity = 0;
         }
 
         public void sort() {
-            for (int i = 0; i < musicalInstruments[INSTRUMENT].length; i++) {
-                for (int j = i; j < musicalInstruments[INSTRUMENT].length; j++) {
+            IntStream
+                    .range(0, musicalInstruments[INSTRUMENT].length)
+                    .forEach(i ->
+                            IntStream.range(i, musicalInstruments[INSTRUMENT].length)
+                                    .filter(j -> musicalInstruments[INSTRUMENT][i] > musicalInstruments[INSTRUMENT][j])
+                                    .forEach(j -> {
+                                        int tempInstrument = musicalInstruments[INSTRUMENT][i];
+                                        int tempOrder = musicalInstruments[ORDER][i];
 
-                    if (musicalInstruments[INSTRUMENT][i] > musicalInstruments[INSTRUMENT][j]) {
-                        int tempInstrument = musicalInstruments[INSTRUMENT][i];
-                        int tempOrder = musicalInstruments[ORDER][i];
+                                        musicalInstruments[INSTRUMENT][i] = musicalInstruments[INSTRUMENT][j];
+                                        musicalInstruments[ORDER][i] = musicalInstruments[ORDER][j];
 
-                        musicalInstruments[INSTRUMENT][i] = musicalInstruments[INSTRUMENT][j];
-                        musicalInstruments[ORDER][i] = musicalInstruments[ORDER][j];
-
-                        musicalInstruments[INSTRUMENT][j] = tempInstrument;
-                        musicalInstruments[ORDER][j] = tempOrder;
-                    }
-                }
-            }
+                                        musicalInstruments[INSTRUMENT][j] = tempInstrument;
+                                        musicalInstruments[ORDER][j] = tempOrder;
+                                }));
         }
 
         public boolean run() {
             sort();
 
-            quantity = 0;
-            for (int index = 0; index < musicalInstruments[INSTRUMENT].length; index++) {
-                if (hours < musicalInstruments[INSTRUMENT][index]) {
-                    break;
-                } else {
-                    hours -= musicalInstruments[INSTRUMENT][index];
-                    quantity++;
-                }
-            }
+            Integer[] answer = Arrays.stream(musicalInstruments[INSTRUMENT])
+                    .collect(Collectors.reducing(
+                            new Integer[] {hours, 0},
+                            value -> new Integer[] {value, 0},
+                            (acc, element) -> {
+                                if (acc[0] >= element[0]) {
+                                    acc[0] -= element[0];
+                                    acc[1] += 1;
+                                }
+                                return acc;
+                            }));
+
+            hours = answer[0];
+            quantity = answer[1];
 
             return true;
         }
@@ -91,18 +99,10 @@ public class C507A {
         }
 
         public int[] getOrder() {
-            int[] order = null;
-
-            if (quantity > 0) {
-                order = new int[quantity];
-                for (int index = 0; index < quantity; index++) {
-                    order[index] = musicalInstruments[ORDER][index];
-                }
-            }
-            return order;
+            return Arrays.stream(musicalInstruments[ORDER]).limit(quantity).mapToInt(value -> value).toArray();
         }
 
-        public int[][] getMusicalInstruments() {
+        public Integer[][] getMusicalInstruments() {
             return musicalInstruments;
         }
     }
@@ -115,12 +115,9 @@ public class C507A {
 
         System.out.println(algoritm.getQuantity());
         if (algoritm.getQuantity() > 0) {
-            int[] order = algoritm.getOrder();
-            String strOrder = "";
-            for (int index = 0; index < order.length; index++) {
-                strOrder += order[index] + " ";
-            }
-            System.out.println(strOrder.trim());
+            System.out.println(
+                    Arrays.stream(algoritm.getOrder()).mapToObj(String::valueOf).collect(Collectors.joining(" "))
+            );
         }
     }
 }
